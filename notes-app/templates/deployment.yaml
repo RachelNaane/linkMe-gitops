@@ -23,8 +23,13 @@ spec:
               containerPort: {{ .Values.image.port }}
               protocol: TCP
           env:
-          - name: DB_URI
-            value: {{ .Values.env.mongoDbUri }}
+          - name: MONGO_HOSTNAME 
+            value: {{ .Release.Name }}-mongodb-headless
+          - name: MONGO_USER
+            value: {{ .Values.env.mongo_user }}
+          - name: MONGO_PASSWORD
+            value: {{ .Values.env.mongo_password }}
+
           resources:
             {{- with .Values.resources }}
             limits:
