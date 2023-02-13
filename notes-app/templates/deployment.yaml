@@ -24,7 +24,7 @@ spec:
               protocol: TCP
           env:
           - name: DB_URI
-            value: mongodb://root:root@mongodb-headless
+            value: "mongodb://root:root@mongodb-headless"
           resources:
             {{- with .Values.resources }}
             limits:
