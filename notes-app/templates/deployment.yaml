@@ -24,7 +24,7 @@ spec:
               protocol: TCP
           env:
           - name: DB_URI
-            value: {{ .Values.env.mongoDbUri | quote}}
+            value: {{ .Values.env.mongoDbUri }}
           resources:
             {{- with .Values.resources }}
             limits:
