@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
   port: 3000
   # Overrides the image tag whose default is the chart appVersion.
-tag: latest5
+tag: latest6
 
 env:
   mongoDbUri: mongodb://root:root@mongodb-headless
@@ -52,4 +52,4 @@ mongodb:
   replicaCount: 3
   service:
   ## @param service.nameOverride MongoDB(&reg;) service name
-    nameOverride: ""
+    nameOverride: "mongodb-headless"
