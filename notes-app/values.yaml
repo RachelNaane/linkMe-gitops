@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
   port: 3000
   # Overrides the image tag whose default is the chart appVersion.
-tag: 1.0.4
+tag: latest
 
 env:
   mongoDbUri: mongodb://root:root@mongodb-headless
