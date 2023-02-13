@@ -48,5 +48,5 @@ mongodb:
     rootPassword: "root"
     usernames: ["root"]
     passwords: ["root"]
-    databases: ["test"]
+    databases: ["stam"]
   replicaCount: 3
