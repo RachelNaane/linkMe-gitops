@@ -6,9 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/RachelNaane/notes-app-gitops.git
-    targetRevision: HEAD 
-    path: infra-aplications
+    - repoURL: https://github.com/RachelNaane/notes-app-gitops.git
+      targetRevision: HEAD 
+      path: infra
+    - repoURL: https://github.com/RachelNaane/notes-app-gitops.git
+      targetRevision: HEAD 
+      path: notes-app
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

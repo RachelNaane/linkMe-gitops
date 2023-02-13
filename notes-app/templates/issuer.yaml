@@ -1,0 +1,16 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: cert-manager.io/v1
+kind: {{ .Values.issuer.kind }}
+metadata:
+  name: ssl-ca-issuer
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: {{ .Values.issuer.email }}
+    privateKeySecretRef:
+      name: ca-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+{{- end }}

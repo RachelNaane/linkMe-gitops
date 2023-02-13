@@ -1,0 +1,1 @@
+echo "notes-app is up! enjoy:)"
