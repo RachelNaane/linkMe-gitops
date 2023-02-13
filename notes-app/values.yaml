@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
   port: 3000
   # Overrides the image tag whose default is the chart appVersion.
-tag: latest8
+tag: latest9
 
 env:
   mongoDbUri: mongodb://root:root@notes-app-mongodb-headless
