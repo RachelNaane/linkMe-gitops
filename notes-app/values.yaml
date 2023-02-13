@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
   port: 3000
   # Overrides the image tag whose default is the chart appVersion.
-tag: latest
+tag: latest1
 env:
   mongo_hostname: "notes-app-mongodb-headless"
   mongo_user: "root"
@@ -47,7 +47,7 @@ mongodb:
   architecture: replicaset
   auth:
     rootPassword: "root"
-    usernames: ["root"]
-    passwords: ["root"]
-    databases: ["test"]
+    usernames: ["root", "root"]
+    passwords: ["root", "root"]
+    databases: ["users", "notes"]
   replicaCount: 3
