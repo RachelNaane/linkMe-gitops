@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infra-app-of-apps
+  name: notes-app
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/RachelNaane/notes-app-gitops.git
     targetRevision: HEAD 
-    path: infra
+    path: notes-app
     
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: default
   
   syncPolicy:
     syncOptions:
