@@ -46,4 +46,5 @@ mongodb:
   architecture: replicaset
   auth:
     rootPassword: "root"
+    databases: ["test"]
   replicaCount: 3
