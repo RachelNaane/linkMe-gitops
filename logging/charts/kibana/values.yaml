@@ -314,7 +314,7 @@ customReadinessProbe: {}
 forceInitScripts: false
 ## @param initScriptsCM Configmap with init scripts to execute
 ##
-initScriptsCM: "my-data"
+initScriptsCM: ""
 ## @param initScriptsSecret Secret with init scripts to execute (for sensitive data)
 ##
 initScriptsSecret: ""

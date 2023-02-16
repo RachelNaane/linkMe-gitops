@@ -1,154 +1,154 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: my-data
-  namespace: {{ include "common.names.namespace" . | quote }}
-data:
-  data.sh: |
-    # Start Kibana
-    service kibana start
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: my-data
+#   namespace: {{ include "common.names.namespace" . | quote }}
+# data:
+#   data.sh: |
+#     # Start Kibana
+#     service kibana start
 
-    # Wait for Kibana to start up 
-    until curl -s http://localhost:5601/login -o /dev/null; do
-      echo "waiting..."
-      sleep 1
-    done
+#     # Wait for Kibana to start up 
+#     until curl -s http://localhost:5601/login -o /dev/null; do
+#       echo "waiting..."
+#       sleep 1
+#     done
 
-    # Import data and dashboard
-    curl -X POST -H 'Content-Type: application/json' 'http://localhost:5601/api/saved_objects/_import?overwrite=true' --data-binary @./index-pattern.ndjson
-    curl -X POST -H 'Content-Type: application/json' 'http://localhost:5601/api/kibana/dashboards/import' --data-binary @./dashboard.json
+#     # Import data and dashboard
+#     curl -X POST -H 'Content-Type: application/json' 'http://localhost:5601/api/saved_objects/_import?overwrite=true' --data-binary @./index-pattern.ndjson
+#     curl -X POST -H 'Content-Type: application/json' 'http://localhost:5601/api/kibana/dashboards/import' --data-binary @./dashboard.json
 
 
-  # my-dashboard.sh: |
-  #   #!/bin/sh
+#   # my-dashboard.sh: |
+#   #   #!/bin/sh
 
-  #   KIBANA_URL="localhost"
-  #   KIBANA_PORT="5601"
+#   #   KIBANA_URL="localhost"
+#   #   KIBANA_PORT="5601"
     
-  #   #Import data view
-  #   function import_data_view {
-  #       echo "Importing data_view..."
-  #       OUTPUT=$(curl -k -X POST ${KIBANA_URL}:${KIBANA_PORT}/api/saved_objects/_import -H "kbn-xsrf: true" --form file=@index-pattern.ndjson)
-  #       SUCCESS=$(echo ${OUTPUT} | grep -o '"successCount":1' | wc -l)
-  #       if [[ ${SUCCESS} == "1" ]]; then
-  #         printf "\n########## Imported data view successfully! #############################\n"
-  #       else
-  #         printf "\n########## Failure while importing data view #############\n"
-  #       fi
-  #       echo ${OUTPUT}}
+#   #   #Import data view
+#   #   function import_data_view {
+#   #       echo "Importing data_view..."
+#   #       OUTPUT=$(curl -k -X POST ${KIBANA_URL}:${KIBANA_PORT}/api/saved_objects/_import -H "kbn-xsrf: true" --form file=@index-pattern.ndjson)
+#   #       SUCCESS=$(echo ${OUTPUT} | grep -o '"successCount":1' | wc -l)
+#   #       if [[ ${SUCCESS} == "1" ]]; then
+#   #         printf "\n########## Imported data view successfully! #############################\n"
+#   #       else
+#   #         printf "\n########## Failure while importing data view #############\n"
+#   #       fi
+#   #       echo ${OUTPUT}}
     
-  #   #Import dashboards
-  #   function import_dashboards {
-  #       echo "Importing dashboards..."
-  #       OUTPUT=$(curl -X POST ${KIBANA_URL}:${KIBANA_PORT}/api/kibana/dashboards/import?exclude=index-pattern -H 'kbn-xsrf: true' -H 'Content-Type: application/json' -d ./dashboard.json)
-  #       SUCCESS=$(echo ${OUTPUT} | grep -o '"successCount":1' | wc -l)
-  #       if [[ ${SUCCESS} == "1" ]]; then
-  #         printf "\n########## Imported dashboards successfully! #############################\n"
-  #       else
-  #         printf "\n########## Failure while importing dashboards #############\n"
-  #       fi
-  #       echo ${OUTPUT}
-  #   }
+#   #   #Import dashboards
+#   #   function import_dashboards {
+#   #       echo "Importing dashboards..."
+#   #       OUTPUT=$(curl -X POST ${KIBANA_URL}:${KIBANA_PORT}/api/kibana/dashboards/import?exclude=index-pattern -H 'kbn-xsrf: true' -H 'Content-Type: application/json' -d ./dashboard.json)
+#   #       SUCCESS=$(echo ${OUTPUT} | grep -o '"successCount":1' | wc -l)
+#   #       if [[ ${SUCCESS} == "1" ]]; then
+#   #         printf "\n########## Imported dashboards successfully! #############################\n"
+#   #       else
+#   #         printf "\n########## Failure while importing dashboards #############\n"
+#   #       fi
+#   #       echo ${OUTPUT}
+#   #   }
     
-  #   import_data_view
-  #   import_dashboards
+#   #   import_data_view
+#   #   import_dashboards
   
-  index-pattern.ndjson: |
-    {"attributes":{"fieldAttrs":"{\"message.keyword\":{\"count\":1},\"kubernetes.container_name.keyword\":{\"count\":3},\"kubernetes.labels.app.keyword\":{\"count\":3},\"kubernetes.pod_name.keyword\":{\"count\":1},\"kubernetes.container_name\":{\"count\":2}}","fieldFormatMap":"{}","fields":"[]","name":"data","runtimeFieldMap":"{}","sourceFilters":"[]","timeFieldName":"@timestamp","title":"logstash*","typeMeta":"{}"},"coreMigrationVersion":"8.6.1","created_at":"2023-02-15T08:08:15.547Z","id":"c9993413-d7ee-49fe-886e-ed7922198f08","migrationVersion":{"index-pattern":"8.0.0"},"references":[],"type":"index-pattern","updated_at":"2023-02-15T08:48:56.839Z","version":"Wzc3MCwxXQ=="}
-    {"excludedObjects":[],"excludedObjectsCount":0,"exportedCount":1,"missingRefCount":0,"missingReferences":[]}
+#   index-pattern.ndjson: |
+#     {"attributes":{"fieldAttrs":"{\"message.keyword\":{\"count\":1},\"kubernetes.container_name.keyword\":{\"count\":3},\"kubernetes.labels.app.keyword\":{\"count\":3},\"kubernetes.pod_name.keyword\":{\"count\":1},\"kubernetes.container_name\":{\"count\":2}}","fieldFormatMap":"{}","fields":"[]","name":"data","runtimeFieldMap":"{}","sourceFilters":"[]","timeFieldName":"@timestamp","title":"logstash*","typeMeta":"{}"},"coreMigrationVersion":"8.6.1","created_at":"2023-02-15T08:08:15.547Z","id":"c9993413-d7ee-49fe-886e-ed7922198f08","migrationVersion":{"index-pattern":"8.0.0"},"references":[],"type":"index-pattern","updated_at":"2023-02-15T08:48:56.839Z","version":"Wzc3MCwxXQ=="}
+#     {"excludedObjects":[],"excludedObjectsCount":0,"exportedCount":1,"missingRefCount":0,"missingReferences":[]}
 
 
-  dashboard.json: |
-    {
-    "version": "8.6.1",
-    "objects": [
-      {
-        "id": "071947e0-ad11-11ed-91c6-5fb97bebd4a1",
-        "type": "dashboard",
-        "namespaces": [
-          "default"
-        ],
-        "updated_at": "2023-02-15T11:08:31.640Z",
-        "created_at": "2023-02-15T11:08:31.640Z",
-        "version": "WzI0NTIsMV0=",
-        "attributes": {
-          "kibanaSavedObjectMeta": {
-            "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[{\"meta\":{\"alias\":\"200\",\"type\":\"custom\",\"key\":\"query\",\"disabled\":false,\"negate\":false,\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"bool\":{\"must\":[],\"filter\":[{\"bool\":{\"should\":[{\"wildcard\":{\"message.keyword\":\"*200*\"}}],\"minimum_should_match\":1}}],\"should\":[],\"must_not\":[]}},\"$state\":{\"store\":\"appState\"}}]}"
-          },
-          "timeRestore": false,
-          "optionsJSON": "{\"useMargins\":true,\"syncColors\":false,\"syncCursor\":true,\"syncTooltips\":false,\"hidePanelTitles\":false}",
-          "description": "",
-          "panelsJSON": "[{\"version\":\"8.6.1\",\"type\":\"lens\",\"gridData\":{\"x\":0,\"y\":0,\"w\":20,\"h\":9,\"i\":\"b0d33112-2a33-4ea0-a9b3-a553442d0a81\"},\"panelIndex\":\"b0d33112-2a33-4ea0-a9b3-a553442d0a81\",\"embeddableConfig\":{\"attributes\":{\"title\":\"database connections in last 15 minutes\",\"description\":\"\",\"visualizationType\":\"lnsDatatable\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\",\"name\":\"indexpattern-datasource-layer-bcfa2515-eb88-4c75-993f-0b90ab7e5b3e\"},{\"type\":\"index-pattern\",\"name\":\"15beba32-153a-4006-bef2-975aaa9a2ce5\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\"}],\"state\":{\"visualization\":{\"layerId\":\"bcfa2515-eb88-4c75-993f-0b90ab7e5b3e\",\"layerType\":\"data\",\"columns\":[{\"columnId\":\"3f398bbf-6785-4318-9d50-bac02324a6d9\"},{\"columnId\":\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\"}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"15beba32-153a-4006-bef2-975aaa9a2ce5\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"msg.keyword\",\"params\":{\"query\":\"Connection accepted\"}},\"query\":{\"match_phrase\":{\"msg.keyword\":\"Connection accepted\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"bcfa2515-eb88-4c75-993f-0b90ab7e5b3e\":{\"columns\":{\"3f398bbf-6785-4318-9d50-bac02324a6d9\":{\"label\":\"pod\",\"dataType\":\"string\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"kubernetes.pod_name.keyword\",\"isBucketed\":true,\"params\":{\"size\":4,\"orderBy\":{\"type\":\"column\",\"columnId\":\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\"},\"orderDirection\":\"desc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false,\"secondaryFields\":[]},\"customLabel\":true},\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\":{\"label\":\"connections\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true},\"customLabel\":true}},\"columnOrder\":[\"3f398bbf-6785-4318-9d50-bac02324a6d9\",\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"enhancements\":{}}},{\"version\":\"8.6.1\",\"type\":\"lens\",\"gridData\":{\"x\":20,\"y\":0,\"w\":14,\"h\":11,\"i\":\"13b9c2fb-c6b2-42f6-8655-241e9c506ef0\"},\"panelIndex\":\"13b9c2fb-c6b2-42f6-8655-241e9c506ef0\",\"embeddableConfig\":{\"attributes\":{\"title\":\"response codes in last hour\",\"description\":\"\",\"visualizationType\":\"lnsPie\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\",\"name\":\"indexpattern-datasource-layer-bf6dc7da-946f-4c6c-997c-5a085e517079\"},{\"type\":\"index-pattern\",\"name\":\"eed49c27-d0aa-4004-be7e-51e3d0f2b384\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\"}],\"state\":{\"visualization\":{\"shape\":\"donut\",\"layers\":[{\"layerId\":\"bf6dc7da-946f-4c6c-997c-5a085e517079\",\"primaryGroups\":[\"9b3a9b06-2e6f-43fd-b3a8-47f3fba3951d\"],\"metrics\":[\"617447f4-0f8e-4ae3-ae8f-7bcc83e39bb5\"],\"numberDisplay\":\"percent\",\"categoryDisplay\":\"default\",\"legendDisplay\":\"default\",\"nestedLegend\":false,\"layerType\":\"data\",\"secondaryGroups\":[]}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"eed49c27-d0aa-4004-be7e-51e3d0f2b384\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"kubernetes.labels.app\",\"params\":{\"query\":\"app\"}},\"query\":{\"match_phrase\":{\"kubernetes.labels.app\":\"app\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"bf6dc7da-946f-4c6c-997c-5a085e517079\":{\"columns\":{\"9b3a9b06-2e6f-43fd-b3a8-47f3fba3951d\":{\"label\":\"Filters\",\"dataType\":\"string\",\"operationType\":\"filters\",\"scale\":\"ordinal\",\"isBucketed\":true,\"params\":{\"filters\":[{\"label\":\"200\",\"input\":{\"query\":\"message.keyword : *200*\",\"language\":\"kuery\"}},{\"input\":{\"query\":\"message.keyword : 404\",\"language\":\"kuery\"},\"label\":\"404\"}]}},\"617447f4-0f8e-4ae3-ae8f-7bcc83e39bb5\":{\"label\":\"Count of message.keyword\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"message.keyword\",\"filter\":{\"query\":\"message.keyword: *\",\"language\":\"kuery\"},\"params\":{\"emptyAsNull\":true}}},\"columnOrder\":[\"9b3a9b06-2e6f-43fd-b3a8-47f3fba3951d\",\"617447f4-0f8e-4ae3-ae8f-7bcc83e39bb5\"],\"sampling\":1,\"incompleteColumns\":{}}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"enhancements\":{}}},{\"version\":\"8.6.1\",\"type\":\"lens\",\"gridData\":{\"x\":0,\"y\":11,\"w\":24,\"h\":15,\"i\":\"63ce72f0-5e6e-4335-bd7f-6f33d665722a\"},\"panelIndex\":\"63ce72f0-5e6e-4335-bd7f-6f33d665722a\",\"embeddableConfig\":{\"attributes\":{\"title\":\"API calles to app in last 15 minutes\",\"description\":\"\",\"visualizationType\":\"lnsLegacyMetric\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\",\"name\":\"indexpattern-datasource-layer-f9a81396-2c88-4b18-b596-764f39aedd5e\"},{\"type\":\"index-pattern\",\"name\":\"e9d9e732-ecb7-44b3-83ce-1df4abb0786e\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\"}],\"state\":{\"visualization\":{\"layerId\":\"f9a81396-2c88-4b18-b596-764f39aedd5e\",\"accessor\":\"3f475e46-eea9-46db-8ca3-a2c33c54baa8\",\"layerType\":\"data\",\"colorMode\":\"Background\",\"palette\":{\"type\":\"palette\",\"name\":\"status\",\"params\":{\"name\":\"status\",\"reverse\":false,\"rangeType\":\"number\",\"rangeMin\":0,\"rangeMax\":97.5,\"progression\":\"fixed\",\"stops\":[{\"color\":\"#209280\",\"stop\":0},{\"color\":\"#d6bf57\",\"stop\":43.33},{\"color\":\"#cc5642\",\"stop\":86.66}],\"steps\":3,\"continuity\":\"all\",\"maxSteps\":5}}},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"e9d9e732-ecb7-44b3-83ce-1df4abb0786e\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"kubernetes.container_name.keyword\",\"params\":{\"query\":\"app\"}},\"query\":{\"match_phrase\":{\"kubernetes.container_name.keyword\":\"app\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"f9a81396-2c88-4b18-b596-764f39aedd5e\":{\"columns\":{\"3f475e46-eea9-46db-8ca3-a2c33c54baa8\":{\"label\":\"api calls\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true},\"customLabel\":true}},\"columnOrder\":[\"3f475e46-eea9-46db-8ca3-a2c33c54baa8\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"hidePanelTitles\":false,\"enhancements\":{}},\"title\":\"API calls to app\"}]",
-          "title": "notes-app",
-          "version": 1
-        },
-        "references": [
-          {
-            "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
-            "type": "index-pattern",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
-          },
-          {
-            "type": "index-pattern",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
-            "name": "b0d33112-2a33-4ea0-a9b3-a553442d0a81:indexpattern-datasource-layer-bcfa2515-eb88-4c75-993f-0b90ab7e5b3e"
-          },
-          {
-            "type": "index-pattern",
-            "name": "b0d33112-2a33-4ea0-a9b3-a553442d0a81:15beba32-153a-4006-bef2-975aaa9a2ce5",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
-          },
-          {
-            "type": "index-pattern",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
-            "name": "13b9c2fb-c6b2-42f6-8655-241e9c506ef0:indexpattern-datasource-layer-bf6dc7da-946f-4c6c-997c-5a085e517079"
-          },
-          {
-            "type": "index-pattern",
-            "name": "13b9c2fb-c6b2-42f6-8655-241e9c506ef0:eed49c27-d0aa-4004-be7e-51e3d0f2b384",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
-          },
-          {
-            "type": "index-pattern",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
-            "name": "63ce72f0-5e6e-4335-bd7f-6f33d665722a:indexpattern-datasource-layer-f9a81396-2c88-4b18-b596-764f39aedd5e"
-          },
-          {
-            "type": "index-pattern",
-            "name": "63ce72f0-5e6e-4335-bd7f-6f33d665722a:e9d9e732-ecb7-44b3-83ce-1df4abb0786e",
-            "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
-          }
-        ],
-        "migrationVersion": {
-          "dashboard": "8.6.0"
-        },
-        "coreMigrationVersion": "8.6.1"
-        },
-        {
-          "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
-          "type": "index-pattern",
-          "namespaces": [
-            "default"
-          ],
-          "updated_at": "2023-02-15T08:48:56.839Z",
-          "created_at": "2023-02-15T08:08:15.547Z",
-          "version": "Wzc3MCwxXQ==",
-          "attributes": {
-            "fieldAttrs": "{\"message.keyword\":{\"count\":1},\"kubernetes.container_name.keyword\":{\"count\":3},\"kubernetes.labels.app.keyword\":{\"count\":3},\"kubernetes.pod_name.keyword\":{\"count\":1},\"kubernetes.container_name\":{\"count\":2}}",
-            "title": "logstash*",
-            "timeFieldName": "@timestamp",
-            "sourceFilters": "[]",
-            "fields": "[]",
-            "fieldFormatMap": "{}",
-            "typeMeta": "{}",
-            "runtimeFieldMap": "{}",
-            "name": "data"
-          },
-          "references": [],
-          "migrationVersion": {
-            "index-pattern": "8.0.0"
-          },
-          "coreMigrationVersion": "8.6.1"
-        }
-      ] 
-    }   
+#   dashboard.json: |
+#     {
+#     "version": "8.6.1",
+#     "objects": [
+#       {
+#         "id": "071947e0-ad11-11ed-91c6-5fb97bebd4a1",
+#         "type": "dashboard",
+#         "namespaces": [
+#           "default"
+#         ],
+#         "updated_at": "2023-02-15T11:08:31.640Z",
+#         "created_at": "2023-02-15T11:08:31.640Z",
+#         "version": "WzI0NTIsMV0=",
+#         "attributes": {
+#           "kibanaSavedObjectMeta": {
+#             "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[{\"meta\":{\"alias\":\"200\",\"type\":\"custom\",\"key\":\"query\",\"disabled\":false,\"negate\":false,\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index\"},\"query\":{\"bool\":{\"must\":[],\"filter\":[{\"bool\":{\"should\":[{\"wildcard\":{\"message.keyword\":\"*200*\"}}],\"minimum_should_match\":1}}],\"should\":[],\"must_not\":[]}},\"$state\":{\"store\":\"appState\"}}]}"
+#           },
+#           "timeRestore": false,
+#           "optionsJSON": "{\"useMargins\":true,\"syncColors\":false,\"syncCursor\":true,\"syncTooltips\":false,\"hidePanelTitles\":false}",
+#           "description": "",
+#           "panelsJSON": "[{\"version\":\"8.6.1\",\"type\":\"lens\",\"gridData\":{\"x\":0,\"y\":0,\"w\":20,\"h\":9,\"i\":\"b0d33112-2a33-4ea0-a9b3-a553442d0a81\"},\"panelIndex\":\"b0d33112-2a33-4ea0-a9b3-a553442d0a81\",\"embeddableConfig\":{\"attributes\":{\"title\":\"database connections in last 15 minutes\",\"description\":\"\",\"visualizationType\":\"lnsDatatable\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\",\"name\":\"indexpattern-datasource-layer-bcfa2515-eb88-4c75-993f-0b90ab7e5b3e\"},{\"type\":\"index-pattern\",\"name\":\"15beba32-153a-4006-bef2-975aaa9a2ce5\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\"}],\"state\":{\"visualization\":{\"layerId\":\"bcfa2515-eb88-4c75-993f-0b90ab7e5b3e\",\"layerType\":\"data\",\"columns\":[{\"columnId\":\"3f398bbf-6785-4318-9d50-bac02324a6d9\"},{\"columnId\":\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\"}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"15beba32-153a-4006-bef2-975aaa9a2ce5\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"msg.keyword\",\"params\":{\"query\":\"Connection accepted\"}},\"query\":{\"match_phrase\":{\"msg.keyword\":\"Connection accepted\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"bcfa2515-eb88-4c75-993f-0b90ab7e5b3e\":{\"columns\":{\"3f398bbf-6785-4318-9d50-bac02324a6d9\":{\"label\":\"pod\",\"dataType\":\"string\",\"operationType\":\"terms\",\"scale\":\"ordinal\",\"sourceField\":\"kubernetes.pod_name.keyword\",\"isBucketed\":true,\"params\":{\"size\":4,\"orderBy\":{\"type\":\"column\",\"columnId\":\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\"},\"orderDirection\":\"desc\",\"otherBucket\":true,\"missingBucket\":false,\"parentFormat\":{\"id\":\"terms\"},\"include\":[],\"exclude\":[],\"includeIsRegex\":false,\"excludeIsRegex\":false,\"secondaryFields\":[]},\"customLabel\":true},\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\":{\"label\":\"connections\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true},\"customLabel\":true}},\"columnOrder\":[\"3f398bbf-6785-4318-9d50-bac02324a6d9\",\"e2795588-0b65-4f2a-ae9a-ecb129c2c9ef\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"enhancements\":{}}},{\"version\":\"8.6.1\",\"type\":\"lens\",\"gridData\":{\"x\":20,\"y\":0,\"w\":14,\"h\":11,\"i\":\"13b9c2fb-c6b2-42f6-8655-241e9c506ef0\"},\"panelIndex\":\"13b9c2fb-c6b2-42f6-8655-241e9c506ef0\",\"embeddableConfig\":{\"attributes\":{\"title\":\"response codes in last hour\",\"description\":\"\",\"visualizationType\":\"lnsPie\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\",\"name\":\"indexpattern-datasource-layer-bf6dc7da-946f-4c6c-997c-5a085e517079\"},{\"type\":\"index-pattern\",\"name\":\"eed49c27-d0aa-4004-be7e-51e3d0f2b384\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\"}],\"state\":{\"visualization\":{\"shape\":\"donut\",\"layers\":[{\"layerId\":\"bf6dc7da-946f-4c6c-997c-5a085e517079\",\"primaryGroups\":[\"9b3a9b06-2e6f-43fd-b3a8-47f3fba3951d\"],\"metrics\":[\"617447f4-0f8e-4ae3-ae8f-7bcc83e39bb5\"],\"numberDisplay\":\"percent\",\"categoryDisplay\":\"default\",\"legendDisplay\":\"default\",\"nestedLegend\":false,\"layerType\":\"data\",\"secondaryGroups\":[]}]},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"eed49c27-d0aa-4004-be7e-51e3d0f2b384\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"kubernetes.labels.app\",\"params\":{\"query\":\"app\"}},\"query\":{\"match_phrase\":{\"kubernetes.labels.app\":\"app\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"bf6dc7da-946f-4c6c-997c-5a085e517079\":{\"columns\":{\"9b3a9b06-2e6f-43fd-b3a8-47f3fba3951d\":{\"label\":\"Filters\",\"dataType\":\"string\",\"operationType\":\"filters\",\"scale\":\"ordinal\",\"isBucketed\":true,\"params\":{\"filters\":[{\"label\":\"200\",\"input\":{\"query\":\"message.keyword : *200*\",\"language\":\"kuery\"}},{\"input\":{\"query\":\"message.keyword : 404\",\"language\":\"kuery\"},\"label\":\"404\"}]}},\"617447f4-0f8e-4ae3-ae8f-7bcc83e39bb5\":{\"label\":\"Count of message.keyword\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"message.keyword\",\"filter\":{\"query\":\"message.keyword: *\",\"language\":\"kuery\"},\"params\":{\"emptyAsNull\":true}}},\"columnOrder\":[\"9b3a9b06-2e6f-43fd-b3a8-47f3fba3951d\",\"617447f4-0f8e-4ae3-ae8f-7bcc83e39bb5\"],\"sampling\":1,\"incompleteColumns\":{}}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"enhancements\":{}}},{\"version\":\"8.6.1\",\"type\":\"lens\",\"gridData\":{\"x\":0,\"y\":11,\"w\":24,\"h\":15,\"i\":\"63ce72f0-5e6e-4335-bd7f-6f33d665722a\"},\"panelIndex\":\"63ce72f0-5e6e-4335-bd7f-6f33d665722a\",\"embeddableConfig\":{\"attributes\":{\"title\":\"API calles to app in last 15 minutes\",\"description\":\"\",\"visualizationType\":\"lnsLegacyMetric\",\"type\":\"lens\",\"references\":[{\"type\":\"index-pattern\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\",\"name\":\"indexpattern-datasource-layer-f9a81396-2c88-4b18-b596-764f39aedd5e\"},{\"type\":\"index-pattern\",\"name\":\"e9d9e732-ecb7-44b3-83ce-1df4abb0786e\",\"id\":\"c9993413-d7ee-49fe-886e-ed7922198f08\"}],\"state\":{\"visualization\":{\"layerId\":\"f9a81396-2c88-4b18-b596-764f39aedd5e\",\"accessor\":\"3f475e46-eea9-46db-8ca3-a2c33c54baa8\",\"layerType\":\"data\",\"colorMode\":\"Background\",\"palette\":{\"type\":\"palette\",\"name\":\"status\",\"params\":{\"name\":\"status\",\"reverse\":false,\"rangeType\":\"number\",\"rangeMin\":0,\"rangeMax\":97.5,\"progression\":\"fixed\",\"stops\":[{\"color\":\"#209280\",\"stop\":0},{\"color\":\"#d6bf57\",\"stop\":43.33},{\"color\":\"#cc5642\",\"stop\":86.66}],\"steps\":3,\"continuity\":\"all\",\"maxSteps\":5}}},\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filters\":[{\"meta\":{\"index\":\"e9d9e732-ecb7-44b3-83ce-1df4abb0786e\",\"alias\":null,\"negate\":false,\"disabled\":false,\"type\":\"phrase\",\"key\":\"kubernetes.container_name.keyword\",\"params\":{\"query\":\"app\"}},\"query\":{\"match_phrase\":{\"kubernetes.container_name.keyword\":\"app\"}},\"$state\":{\"store\":\"appState\"}}],\"datasourceStates\":{\"formBased\":{\"layers\":{\"f9a81396-2c88-4b18-b596-764f39aedd5e\":{\"columns\":{\"3f475e46-eea9-46db-8ca3-a2c33c54baa8\":{\"label\":\"api calls\",\"dataType\":\"number\",\"operationType\":\"count\",\"isBucketed\":false,\"scale\":\"ratio\",\"sourceField\":\"___records___\",\"params\":{\"emptyAsNull\":true},\"customLabel\":true}},\"columnOrder\":[\"3f475e46-eea9-46db-8ca3-a2c33c54baa8\"],\"incompleteColumns\":{},\"sampling\":1}}},\"textBased\":{\"layers\":{}}},\"internalReferences\":[],\"adHocDataViews\":{}}},\"hidePanelTitles\":false,\"enhancements\":{}},\"title\":\"API calls to app\"}]",
+#           "title": "notes-app",
+#           "version": 1
+#         },
+#         "references": [
+#           {
+#             "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+#             "type": "index-pattern",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
+#           },
+#           {
+#             "type": "index-pattern",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
+#             "name": "b0d33112-2a33-4ea0-a9b3-a553442d0a81:indexpattern-datasource-layer-bcfa2515-eb88-4c75-993f-0b90ab7e5b3e"
+#           },
+#           {
+#             "type": "index-pattern",
+#             "name": "b0d33112-2a33-4ea0-a9b3-a553442d0a81:15beba32-153a-4006-bef2-975aaa9a2ce5",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
+#           },
+#           {
+#             "type": "index-pattern",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
+#             "name": "13b9c2fb-c6b2-42f6-8655-241e9c506ef0:indexpattern-datasource-layer-bf6dc7da-946f-4c6c-997c-5a085e517079"
+#           },
+#           {
+#             "type": "index-pattern",
+#             "name": "13b9c2fb-c6b2-42f6-8655-241e9c506ef0:eed49c27-d0aa-4004-be7e-51e3d0f2b384",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
+#           },
+#           {
+#             "type": "index-pattern",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
+#             "name": "63ce72f0-5e6e-4335-bd7f-6f33d665722a:indexpattern-datasource-layer-f9a81396-2c88-4b18-b596-764f39aedd5e"
+#           },
+#           {
+#             "type": "index-pattern",
+#             "name": "63ce72f0-5e6e-4335-bd7f-6f33d665722a:e9d9e732-ecb7-44b3-83ce-1df4abb0786e",
+#             "id": "c9993413-d7ee-49fe-886e-ed7922198f08"
+#           }
+#         ],
+#         "migrationVersion": {
+#           "dashboard": "8.6.0"
+#         },
+#         "coreMigrationVersion": "8.6.1"
+#         },
+#         {
+#           "id": "c9993413-d7ee-49fe-886e-ed7922198f08",
+#           "type": "index-pattern",
+#           "namespaces": [
+#             "default"
+#           ],
+#           "updated_at": "2023-02-15T08:48:56.839Z",
+#           "created_at": "2023-02-15T08:08:15.547Z",
+#           "version": "Wzc3MCwxXQ==",
+#           "attributes": {
+#             "fieldAttrs": "{\"message.keyword\":{\"count\":1},\"kubernetes.container_name.keyword\":{\"count\":3},\"kubernetes.labels.app.keyword\":{\"count\":3},\"kubernetes.pod_name.keyword\":{\"count\":1},\"kubernetes.container_name\":{\"count\":2}}",
+#             "title": "logstash*",
+#             "timeFieldName": "@timestamp",
+#             "sourceFilters": "[]",
+#             "fields": "[]",
+#             "fieldFormatMap": "{}",
+#             "typeMeta": "{}",
+#             "runtimeFieldMap": "{}",
+#             "name": "data"
+#           },
+#           "references": [],
+#           "migrationVersion": {
+#             "index-pattern": "8.0.0"
+#           },
+#           "coreMigrationVersion": "8.6.1"
+#         }
+#       ] 
+#     }   
