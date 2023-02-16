@@ -320,42 +320,7 @@ fileConfigs:
         </pattern>
       </parse>
     </source>
-    # <source>
-    #   @type forward
-    #   port 24224
-    # </source>
-    # <match app.**>
-    #   @id elasticsearch1
-    #   @type elasticsearch
-    #   @log_level info
-    #   include_tag_key true
-    #   host "elasticsearch-master-hl"
-    #   port 9200
-    #   user elastic
-    #   password 1234
-    #   path ""
-    #   scheme http
-    #   ssl_verify false
-    #   ssl_version TLSv1_2
-    #   type_name _doc
-    #   logstash_format true
-    #   logstash_prefix logstash
-    #   reconnect_on_error true
-    #   <buffer>
-    #     @type file
-    #     path /var/log/fluentd-buffers/kubernetes.system.buffer1
-    #     flush_mode interval
-    #     retry_type exponential_backoff
-    #     flush_thread_count 2
-    #     flush_interval 5s
-    #     retry_forever
-    #     retry_max_interval 30
-    #     chunk_limit_size 2M
-    #     queue_limit_length 8
-    #     overflow_action block
-    #   </buffer>
-    # </match>
-
+  
   02_filters.conf: |-
     # Detect exceptions in the log output and forward them as one log entry.
     <match raw.kubernetes.**>
@@ -418,7 +383,7 @@ fileConfigs:
       @type elasticsearch
       @log_level info
       include_tag_key true
-      host "elasticsearch-master-hl"
+      host "logging-elasticsearch-master-hl"
       port 9200
       user elastic
       password 1234
