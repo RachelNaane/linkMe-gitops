@@ -425,7 +425,7 @@ prometheus:
   create: true
 
   ## Configures the port to scrape the metrics.
-  port: 9113
+  port: 10254
 
   ## Specifies the namespace/name of a Kubernetes TLS Secret which will be used to protect the Prometheus endpoint.
   secret: ""
