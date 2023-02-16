@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/RachelNaane/notes-app-gitops.git
     targetRevision: HEAD 
-    path: efk
+    path: infra/charts/efk
   destination:
     server: https://kubernetes.default.svc
     namespace: logging
