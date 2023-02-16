@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/RachelNaane/notes-app-gitops.git
     targetRevision: HEAD 
-    path: infra/charts/nginx-ingress-v0.16.1
+    path: infra/charts/ingress-nginx
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx-ingress
