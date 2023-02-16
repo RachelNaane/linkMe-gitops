@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: logging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RachelNaane/notes-app-gitops.git
+    targetRevision: HEAD 
+    path: infra/charts/efk
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: logging
+  
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  
+    automated:
+      selfHeal: true #if manual changes are applied that are not in source code-argocd will delete them
+      prune: true #argocd pulls source code every 3m
