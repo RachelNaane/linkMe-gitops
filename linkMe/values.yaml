@@ -5,13 +5,13 @@
 replicaCount: 2
 
 image:
-  repository: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/rachel-naane-notes-app
+  repository: 644435390668.dkr.ecr.eu-west-2.amazonaws.com/rachel-naane-linkme
   pullPolicy: IfNotPresent
   port: 3000
   # Overrides the image tag whose default is the chart appVersion.
-tag: latest4
+tag: 1.0.0
 env:
-  mongo_hostname: "notes-app-mongodb-headless"
+  mongo_hostname: "linkMe-mongodb-headless"
   mongo_user: "root"
   mongo_password: "root"
 
