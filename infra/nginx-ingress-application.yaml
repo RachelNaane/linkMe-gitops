@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/RachelNaane/linkMe.git
+    repoURL: https://github.com/RachelNaane/linkMe-gitops.git
     targetRevision: HEAD 
     path: infra/charts/ingress-nginx
   destination:
