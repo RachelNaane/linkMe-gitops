@@ -13,7 +13,7 @@ tag: 1.0.17
 env:
   mongo_hostname: "linkMe-mongodb-headless"
   mongo_user: "root"
-  mongo_password: "root"
+  # mongo_password: "root"
 
 resources:
   limits:
@@ -46,8 +46,10 @@ mongodb:
   # can de 'standalone' or 'replicaset'. if standalone, replica count should be 1
   architecture: replicaset
   auth:
-    rootPassword: "root"
+    # rootPassword: "root"
     usernames: ["root", "root"]
     passwords: ["root", "root"]
     databases: ["users", "notes"]
+
+    existingSecret: "secret.yaml"
   replicaCount: 3

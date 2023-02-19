@@ -28,7 +28,10 @@ spec:
           - name: MONGO_USER
             value: {{ .Values.env.mongo_user }}
           - name: MONGO_PASSWORD
-            value: {{ .Values.env.mongo_password }}
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: mongodb-root-password
 
           resources:
             {{- with .Values.resources }}
