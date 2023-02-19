@@ -47,9 +47,9 @@ mongodb:
   architecture: replicaset
   auth:
     # rootPassword: "root"
-    usernames: ["root", "root"]
-    passwords: ["root", "root"]
-    databases: ["users", "notes"]
+    # usernames: ["root", "root"]
+    # passwords: ["root", "root"]
+    # databases: ["users", "notes"]
 
     existingSecret: "secret"
   replicaCount: 3
