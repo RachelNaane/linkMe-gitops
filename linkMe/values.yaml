@@ -45,5 +45,6 @@ issuer:
 mongodb: 
   # can de 'standalone' or 'replicaset'. if standalone, replica count should be 1
   architecture: replicaset
+  auth:
     existingSecret: "secret"
   replicaCount: 3
