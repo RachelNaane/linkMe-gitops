@@ -168,7 +168,9 @@ env:
   # - name: FLUENT_ELASTICSEARCH_PORT
   #   value: "9200"
 
-envFrom: []
+envFrom: 
+- secretRef:
+    name: secret
 
 initContainers: []
 
@@ -385,15 +387,13 @@ fileConfigs:
       include_tag_key true
       host "logging-elasticsearch-master-hl"
       port 9200
-      user elastic
-      password 1234
+      user "#{ENV['ELASTICSEARCH_USER']}"
+      password "#{ENV['elasticPassword']}"
       path ""
       scheme http
       ssl_verify false
       ssl_version TLSv1_2
       type_name _doc
-      # index_name logs
-      # include_timestamp true
       logstash_format true
       logstash_prefix logstash
       reconnect_on_error true

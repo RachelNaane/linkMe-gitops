@@ -705,10 +705,10 @@ elasticsearch:
       enabled: true
       ## @param elasticsearch.security.auth.kibanaPassword Password of the 'kibana_system' user, used to authenticate Kibana connection with Elasticsearch.
       ##
-      kibanaPassword: "1234"
+      kibanaPassword: ""
       ## @param elasticsearch.security.auth.existingSecret Name of the existing secret containing the password for the 'kibana_system' user.
       ##
-      existingSecret: ""
+      existingSecret: "secret"
       ## @param elasticsearch.security.auth.createSystemUser If enabled, Kibana will use Elasticsearch API to create the 'kibana_system' user at startup.
       ##
       createSystemUser: false
