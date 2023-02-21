@@ -35,7 +35,7 @@ ingress:
     cert-manager.io/issue-temporary-certificate: "true",
     acme.cert-manager.io/http01-edit-in-place: "true"
   }
-  host: rachelapp.ddns.net
+  host: rachel.ddns.net
 
 issuer: 
   kind: ClusterIssuer
